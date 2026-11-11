@@ -1,0 +1,77 @@
+version: 2
+
+models:
+  - name: crm_cust_info
+    columns:
+      - name: cst_id
+        data_tests:
+          - not_null
+          - unique
+      - name: cst_key
+        data_tests:
+          - not_null
+          - unique
+      - name: cst_marital_status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Single', 'Married', 'N/A']
+      - name: cst_gndr
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Female', 'Male', 'N/A']
+
+  - name: crm_prd_info
+    columns:
+      - name: prd_id
+        data_tests:
+          - not_null
+          - unique
+      - name: prd_line
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Mountain', 'Road', 'Sales', 'Touring', 'N/A']
+
+  - name: crm_sales_details
+    columns:
+      - name: sls_ord_num
+        data_tests:
+          - not_null
+      - name: sls_cust_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('crm_cust_info')
+                field: cst_id
+              config:
+                severity: warn
+      - name: sls_prd_key
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('crm_prd_info')
+                field: prd_key
+              config:
+                severity: warn
+
+  - name: erp_cust_az12
+    columns:
+      - name: cid
+        data_tests:
+          - not_null
+          - unique
+      - name: gen
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['Female', 'Male', 'N/A']
+
+  - name: erp_loc_a101
+    columns:
+      - name: cid
+        data_tests:
+          - not_null
+          - unique
