@@ -1,10 +1,9 @@
 # Modern Analytics Warehouse
-
-An End-to-End Data Engineering Project with **PostgreSQL, Docker, and dbt**. The project transforms raw CRM and ERP data into structured, analytics-ready datasets through a layered warehouse architecture, with data quality tests and documented model lineage.
-
 <p align="center">
   <strong>Building a modern analytical data warehouse using CRM and ERP data</strong>
 </p>
+
+An End-to-End Data Engineering Project with **PostgreSQL, Docker, and dbt**. The project transforms raw CRM and ERP data into structured, analytics-ready datasets through a layered warehouse architecture, with data quality tests and documented model lineage.
 
 ## Project Overview
 
@@ -196,7 +195,12 @@ modern_warehouse/
 │
 ├── docs/
 │   └── dbt-lineage.png
-│
+|
+├── sql/bronze
+|   ├── check_counts.sql
+|   ├── ddl_bronze.sql
+|   └── load_bronze.sql
+|
 ├── docker-compose.yml
 ├── .gitignore
 └── README.md
