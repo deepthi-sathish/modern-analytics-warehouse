@@ -8,3 +8,6 @@ models:
   warehouse:
     silver:
       +materialized: table
+    gold:
+      +materialized: view
+      +schema: gold
