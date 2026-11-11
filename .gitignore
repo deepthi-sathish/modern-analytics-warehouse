@@ -1,3 +1,5 @@
 .venv/
 target/
 dbt_warehouse/profiles.yml
+logs/
+dbt_packages/
