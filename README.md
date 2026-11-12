@@ -142,7 +142,9 @@ During validation, 15 customer records were identified with birth dates earlier 
 
 These records are flagged by a dbt warning and deliberately left unchanged because there is insufficient evidence to classify them as incorrect.
 
-This preserves the original customer records while making the data quality issue visible for further investigation.
+Silver customers: 18,494 Bronze rows -> 18,484 (4 NULL IDs and 6 older duplicates removed)
+
+Row counts: dim_customers 18,484 | dim_products 295 | fact_sales 60,398
 
 ## Validation Results
 
@@ -259,6 +261,10 @@ dbt docs serve
 ```
 
 Open [`http://localhost:8080`](http://localhost:8080) to explore the dbt documentation and model lineage.
+
+## Design decisions
+- Postgres + Docker so anyone can reproduce the project with one command
+- dbt instead of stored procedures for tests, lineage and run order
 
 ## Documentation
 
