@@ -1,10 +1,25 @@
 # Modern Analytics Warehouse
 
-An End-to-End Data Engineering Project with **PostgreSQL, Docker, and dbt**. The project transforms raw CRM and ERP data into structured, analytics-ready datasets through a layered warehouse architecture, with data quality tests and documented model lineage.
+<p align="center">
+  **An End-to-End Data Engineering Project**
+  <br>
+  Building an analytics-ready data warehouse using PostgreSQL, Python, Docker and dbt.
+</p>
 
 <p align="center">
-  <strong>Building a modern analytical data warehouse using CRM and ERP data</strong>
+  <img src="https://img.shields.io/badge/PostgreSQL-16-blue?logo=postgresql" alt="PostgreSQL">
+  <img src="https://img.shields.io/badge/Python-3.13-blue?logo=python" alt="Python">
+  <img src="https://img.shields.io/badge/dbt-1.11-orange?logo=dbt" alt="dbt">
+  <img src="https://img.shields.io/badge/Docker-Compose-blue?logo=docker" alt="Docker">
+  <img src="https://img.shields.io/badge/Testing-pytest-green?logo=pytest" alt="pytest">
 </p>
+
+<p align="center">
+  <strong>Bronze → Silver → Gold | Medallion Architecture</strong>
+</p>
+
+---
+
 
 ## Project Overview
 
@@ -52,7 +67,7 @@ The three layers:
 | Data Transformation | dbt Core, dbt-postgres |
 | Containerization | Docker, Docker Compose |
 | Query Language | SQL |
-| Programming | Python |
+| Programming | Python, pytest |
 | Version Control | Git, GitHub |
 | Development Environment | Visual Studio Code |
 
@@ -77,7 +92,9 @@ The source data is stored in six corresponding Bronze tables in PostgreSQL.
 ### 1. Bronze Layer - Raw Data Storage
 
 - Stores the six raw CRM and ERP datasets in PostgreSQL.
+- Loads CSV files using a Python ingestion script with psycopg2.
 - Preserves the source data for downstream transformations.
+- Records ingestion results, execution duration and errors in a Bronze audit table.
 
 ### 2. Silver Layer - Data Cleaning & Transformation
 
@@ -197,11 +214,25 @@ modern_warehouse/
 │   └── profiles.yml
 │
 ├── docs/
-│   └── dbt-lineage.png
-│
+│   ├── dbt-lineage.png
+|
+├── ingestion
+|   ├── __init__.py
+│   └── load_bronze.py
+|
+├── python_tests
+|   └── test_ingestion.py
+|
+├── sql\bronze
+|   ├── check_counts.sql
+|   ├── ddl_audit.sql
+|   ├── ddl_bronze.sql
+|   └── load_bronze.sql
+|
 ├── docker-compose.yml
 ├── .gitignore
-└── README.md
+├── README.md
+└── requirements.txt
 ```
 
 ## Getting Started
@@ -213,52 +244,39 @@ modern_warehouse/
 - dbt Core with the PostgreSQL adapter
 - Git
 
-### 1. Start PostgreSQL using Docker Compose
+## How to Run
 
-From the project root:
+1. Install Docker Desktop and Python 3.12+.
+2. Copy `.env.example` to `.env` and configure your PostgreSQL credentials.
+3. Start PostgreSQL:
 
-```bash
-docker compose up -d
-```
+   ```bash
+   docker compose up -d
+   ```
 
-### 2. Activate the Python virtual environment
+4. Create the Bronze tables by running:
+   - `sql/bronze/ddl_bronze.sql`
+   - `sql/bronze/ddl_audit.sql`
 
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
+5. Load Bronze data using Python:
 
-### 3. Navigate to the dbt project
+   ```bash
+   python ingestion/load_bronze.py
+   ```
 
-```powershell
-cd dbt_warehouse
-```
+6. Run dbt transformations and tests:
 
-Configure your local dbt `profiles.yml` with the PostgreSQL connection details.
+   ```bash
+   cd dbt_warehouse
+   dbt build
+   ````
 
-Note: The six Bronze source tables must be created and populated in PostgreSQL before running the dbt models. The current repository uses an already-populated local warehouse; automated source ingestion is not yet implemented.
+7. Generate and view documentation
 
-### 4. Check the connection
-
-```bash
-dbt debug
-```
-
-### 5. Run the dbt models and Execute data quality tests
-
-```bash
-dbt run
-```
-
-```bash
-dbt test
-```
-
-### 6. Generate and view documentation
-
-```bash
-dbt docs generate
-dbt docs serve
-```
+    ```bash
+    dbt docs generate
+    dbt docs serve
+    ```
 
 Open [`http://localhost:8080`](http://localhost:8080) to explore the dbt documentation and model lineage.
 
