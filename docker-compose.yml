@@ -4,7 +4,7 @@ services:
     container_name: warehouse_db
     environment:
       POSTGRES_USER: warehouse
-      POSTGRES_PASSWORD: warehouse
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: warehouse
     ports:
       - "5432:5432"
