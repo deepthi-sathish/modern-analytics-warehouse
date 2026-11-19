@@ -173,8 +173,6 @@ The following row counts were verified against the PostgreSQL Gold models:
 | dim_products | 295 |
 | fact_sales | 60,398 |
 
-The product dimension contains only products without an end date, as defined by the model's active-product filter.
-
 The customer and sales row counts match their corresponding Silver models. The product dimension contains only active products, as defined by the model's end-date filter.
 
 ## Project Structure
@@ -210,11 +208,10 @@ modern_warehouse/
 │   ├── tests/
 │   │   └── [custom SQL data tests]
 │   │
-│   ├── dbt_project.yml
-│   └── profiles.yml
+│   └── dbt_project.yml
 │
 ├── docs/
-│   ├── dbt-lineage.png
+│   └── dbt-lineage.png
 |
 ├── ingestion
 |   ├── __init__.py
